@@ -1,7 +1,7 @@
 {
   "id": 3,
   "name": "Backup workflows to GitHub",
-  "active": false,
+  "active": true,
   "nodes": [
     {
       "parameters": {},
@@ -142,24 +142,6 @@
     },
     {
       "parameters": {
-        "triggerTimes": {
-          "item": [
-            {
-              "mode": "everyX"
-            }
-          ]
-        }
-      },
-      "name": "Every 2 hours",
-      "type": "n8n-nodes-base.cron",
-      "position": [
-        240,
-        580
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
         "filePath": "={{$json[\"filename\"]}}"
       },
       "name": "Read Binary File",
@@ -289,6 +271,25 @@
         }
       },
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "custom",
+              "cronExpression": "0 0/1 * * *"
+            }
+          ]
+        }
+      },
+      "name": "cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        240,
+        580
+      ],
+      "typeVersion": 1
     }
   ],
   "connections": {
@@ -385,17 +386,6 @@
         [
           {
             "node": "github_status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Every 2 hours": {
-      "main": [
-        [
-          {
-            "node": "Globals",
             "type": "main",
             "index": 0
           }
@@ -508,10 +498,21 @@
           }
         ]
       ]
+    },
+    "cron": {
+      "main": [
+        [
+          {
+            "node": "Globals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2022-07-27T19:55:13.305Z",
-  "updatedAt": "2022-07-27T20:02:45.807Z",
+  "updatedAt": "2022-07-27T20:13:59.463Z",
   "settings": {},
   "staticData": null,
   "pinData": {},
