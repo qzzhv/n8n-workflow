@@ -1,7 +1,7 @@
 {
   "id": 2,
   "name": "Notion task list test",
-  "active": true,
+  "active": false,
   "nodes": [
     {
       "parameters": {},
@@ -112,7 +112,7 @@
     }
   },
   "createdAt": "2022-07-27T13:14:06.534Z",
-  "updatedAt": "2022-07-31T09:45:06.835Z",
+  "updatedAt": "2022-07-31T21:21:48.560Z",
   "settings": {},
   "staticData": {
     "node:page added": {
