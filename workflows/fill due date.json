@@ -1,0 +1,197 @@
+{
+  "id": 4,
+  "name": "fill due date",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"dueDateTime\"][\"dateTime\"].length > 0}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "name": "task has due date",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "list",
+        "operation": "getAll",
+        "returnAll": true
+      },
+      "name": "get all lists",
+      "type": "n8n-nodes-base.microsoftToDo",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "microsoftToDoOAuth2Api": {
+          "id": "10",
+          "name": "Microsoft To Do iwsat6707"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "taskListId": "={{$json[\"id\"]}}",
+        "returnAll": true
+      },
+      "name": "get all tasks",
+      "type": "n8n-nodes-base.microsoftToDo",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "microsoftToDoOAuth2Api": {
+          "id": "10",
+          "name": "Microsoft To Do iwsat6707"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "taskListId": "=\"\"",
+        "taskId": "={{$json[\"id\"]}}",
+        "updateFields": {
+          "content": "={{'[' + String.fromCodePoint(0x1F916) + String.fromCodePoint(0x23F3) + ' '+ new Date().toISOString() + ']\\n' + $json[\"body\"][\"content\"]}}",
+          "dueDateTime": "={{ new Date().toISOString() }}"
+        }
+      },
+      "name": "set due date today",
+      "type": "n8n-nodes-base.microsoftToDo",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        320
+      ],
+      "credentials": {
+        "microsoftToDoOAuth2Api": {
+          "id": "10",
+          "name": "Microsoft To Do iwsat6707"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 10,
+              "unit": "minutes"
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get all lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "task has due date": {
+      "main": [
+        [],
+        [
+          {
+            "node": "set due date today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all lists": {
+      "main": [
+        [
+          {
+            "node": "get all tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all tasks": {
+      "main": [
+        [
+          {
+            "node": "task has due date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "get all lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2022-08-29T13:33:51.488Z",
+  "updatedAt": "2022-08-29T13:52:39.735Z",
+  "settings": {},
+  "staticData": null,
+  "pinData": {},
+  "tags": [
+    {
+      "id": "4",
+      "name": "microsoft todo",
+      "createdAt": "2022-08-29T13:34:00.489Z",
+      "updatedAt": "2022-08-29T13:34:00.489Z"
+    },
+    {
+      "id": "5",
+      "name": "cron",
+      "createdAt": "2022-08-29T13:34:11.279Z",
+      "updatedAt": "2022-08-29T13:34:11.279Z"
+    }
+  ]
+}
