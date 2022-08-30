@@ -1,0 +1,230 @@
+{
+  "id": 5,
+  "name": "todo on requests",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "base_url",
+              "value": "https://graph.microsoft.com/v1.0"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "name": "set global params",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        400,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftToDoOAuth2Api",
+        "url": "={{$node[\"set global params\"].json[\"base_url\"]}}/me/todo/lists",
+        "options": {}
+      },
+      "name": "get lists",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        560,
+        300
+      ],
+      "credentials": {
+        "microsoftToDoOAuth2Api": {
+          "id": "10",
+          "name": "Microsoft To Do iwsat6707"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "microsoftToDoOAuth2Api",
+        "url": "={{$item(0).$node[\"set global params\"].json[\"base_url\"]}}/me/todo/lists/{{$json[\"id\"]}}/tasks",
+        "options": {
+          "followRedirect": false
+        }
+      },
+      "name": "get tasks",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 2,
+      "position": [
+        860,
+        360
+      ],
+      "credentials": {
+        "microsoftToDoOAuth2Api": {
+          "id": "10",
+          "name": "Microsoft To Do iwsat6707"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "return items[0].json.value"
+      },
+      "name": "extract list",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "csv",
+        "options": {}
+      },
+      "name": "Spreadsheet File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex",
+        "join": "outer"
+      },
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "SplitInBatches",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        520
+      ]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "set global params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set global params": {
+      "main": [
+        [
+          {
+            "node": "get lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get lists": {
+      "main": [
+        [
+          {
+            "node": "extract list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract list": {
+      "main": [
+        [
+          {
+            "node": "get tasks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get tasks": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "SplitInBatches",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2022-08-30T09:04:38.520Z",
+  "updatedAt": "2022-08-30T15:29:36.828Z",
+  "settings": {},
+  "staticData": null,
+  "pinData": {},
+  "tags": [
+    {
+      "id": "4",
+      "name": "microsoft todo",
+      "createdAt": "2022-08-29T13:34:00.489Z",
+      "updatedAt": "2022-08-29T13:34:00.489Z"
+    }
+  ]
+}
