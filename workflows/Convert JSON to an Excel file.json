@@ -1,0 +1,128 @@
+{
+  "id": 6,
+  "name": "Convert JSON to an Excel file",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "c1616754-4dec-4b00-a8b5-d1cb5f75bf11",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        375,
+        235
+      ],
+      "webhookId": "c1616754-4dec-4b00-a8b5-d1cb5f75bf11",
+      "typeVersion": 1,
+      "id": "3806add9-f872-43ef-9ee6-6fffda0cadce"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "=body",
+        "options": {}
+      },
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        595,
+        235
+      ],
+      "typeVersion": 1,
+      "id": "c01f04f2-235e-4dd6-843d-9528ea41abf8"
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "xlsx",
+        "options": {}
+      },
+      "name": "Spreadsheet File",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        815,
+        235
+      ],
+      "typeVersion": 1,
+      "id": "155f9cfb-f0ab-464f-95ad-05159f9fccc6"
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "content-disposition",
+                "value": "=attachment; filename=\"{{$node[\"Webhook\"].json[\"query\"][\"filename\"]? $node[\"Webhook\"].json[\"query\"][\"filename\"] : \"Export\"}}.xlsx\""
+              }
+            ]
+          }
+        }
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        1055,
+        235
+      ],
+      "typeVersion": 1,
+      "id": "7ab6baef-073e-4fc4-abef-73a0c93741e1"
+    },
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        175,
+        235
+      ],
+      "id": "27b47c06-6c9b-4990-bf72-8047eb203d2b"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Spreadsheet File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Spreadsheet File": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2022-11-12T10:42:07.332Z",
+  "updatedAt": "2022-11-12T10:42:07.332Z",
+  "settings": {},
+  "staticData": null,
+  "pinData": {},
+  "tags": []
+}
