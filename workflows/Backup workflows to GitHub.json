@@ -1,4 +1,6 @@
 {
+  "createdAt": "2022-07-27T19:55:13.305Z",
+  "updatedAt": "2022-08-22T13:07:03.457Z",
   "id": 3,
   "name": "Backup workflows to GitHub",
   "active": true,
@@ -529,10 +531,9 @@
       ]
     }
   },
-  "createdAt": "2022-07-27T19:55:13.305Z",
-  "updatedAt": "2022-08-22T13:07:03.457Z",
   "settings": {},
   "staticData": null,
   "pinData": {},
-  "tags": []
+  "tags": [],
+  "hash": "7cc0597df1e0f5130d1e71442e754b9b"
 }
