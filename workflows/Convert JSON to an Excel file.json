@@ -1,4 +1,6 @@
 {
+  "createdAt": "2022-11-12T10:42:07.332Z",
+  "updatedAt": "2022-11-12T10:42:07.332Z",
   "id": 6,
   "name": "Convert JSON to an Excel file",
   "active": false,
@@ -119,10 +121,9 @@
       ]
     }
   },
-  "createdAt": "2022-11-12T10:42:07.332Z",
-  "updatedAt": "2022-11-12T10:42:07.332Z",
   "settings": {},
   "staticData": null,
   "pinData": {},
-  "tags": []
+  "tags": [],
+  "hash": "184b837e0a7e81130a73cab3ae63b6c4"
 }
