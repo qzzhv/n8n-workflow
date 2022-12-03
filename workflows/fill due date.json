@@ -1,4 +1,6 @@
 {
+  "createdAt": "2022-08-29T13:33:51.488Z",
+  "updatedAt": "2022-08-30T09:27:27.662Z",
   "id": 4,
   "name": "fill due date",
   "active": true,
@@ -180,23 +182,22 @@
       ]
     }
   },
-  "createdAt": "2022-08-29T13:33:51.488Z",
-  "updatedAt": "2022-08-30T09:27:27.662Z",
   "settings": {},
   "staticData": null,
   "pinData": {},
   "tags": [
     {
-      "id": "4",
-      "name": "microsoft todo",
       "createdAt": "2022-08-29T13:34:00.489Z",
-      "updatedAt": "2022-08-29T13:34:00.489Z"
+      "updatedAt": "2022-08-29T13:34:00.489Z",
+      "id": "4",
+      "name": "microsoft todo"
     },
     {
-      "id": "5",
-      "name": "cron",
       "createdAt": "2022-08-29T13:34:11.279Z",
-      "updatedAt": "2022-08-29T13:34:11.279Z"
+      "updatedAt": "2022-08-29T13:34:11.279Z",
+      "id": "5",
+      "name": "cron"
     }
-  ]
+  ],
+  "hash": "49354c8b1835e3d432774fda5482b5e9"
 }
